@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nisanurum Benim Her Şeyim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(to bottom right, #2c003e, #4b005f);
+            color: #fff;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* All main sections initially hidden and transitionable */
+        #intro, #letter, #final, #poems {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            white-space: normal;
+            line-height: 1.8;
+            word-break: break-word;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            position: relative; /* For z-index of content */
+            z-index: 10;
+        }
+
+        /* Class applied to sections to show them */
+        #intro.show, #letter.show, #final.show, #poems.show {
+            opacity: 1;
+        }
+
+        #intro h1 {
+            font-size: 2.7rem;
+            color: #ffb3ec;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff99cc;
+        }
+
+        #intro p {
+            font-size: 1.4rem;
+            color: #ffe0f5;
+            margin-top: 10px;
+        }
+
+        .char {
+            opacity: 0;
+            display: inline-block;
+            animation: fadeInChar 0.03s forwards;
+        }
+
+        @keyframes fadeInChar {
+            to { opacity: 1; }
+        }
+
+        .heart {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #e91e63;
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: fall 4s linear forwards;
+            z-index: 0; /* To stay behind content */
+        }
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #e91e63;
+            border-radius: 50%;
+        }
+        .heart:before { top: -8px; left: 0; }
+        .heart:after { left: 8px; top: 0; }
+
+        /* Heart fall animation (more dynamic, with sideways drift and rotation) */
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(45deg) translateX(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(calc(45deg + var(--rotation-deg))) translateX(var(--slide-x));
+                opacity: 0;
+            }
+        }
+
+        #final {
+            font-size: 1.6rem;
+            color: #ffd6f5;
+            margin-top: 30px;
+            display: flex; /* To arrange button and text */
+            flex-direction: column; /* To stack them vertically */
+            align-items: center; /* To center them */
+            gap: 20px; /* Space between elements */
+        }
+
+        #final .final-text { /* New class to target the span tag */
+            display: inline-block;
+            background: #ff66b2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px #ff80bf;
+            cursor: pointer; /* Indicates it's clickable */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #final .final-text:hover {
+            background-color: #ff4d94; /* Hover color */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 25px rgba(255, 128, 191, 0.7);
+        }
+
+        /* This button is hidden as the span with final-text class is used for click */
+        #final a.button {
+            display: none;
+        }
+
+        #poems {
+            margin-top: 50px; /* Top margin when it becomes visible after final */
+        }
+
+        #poems h2 {
+            font-size: 1.8rem;
+            color: #ffb3ec;
+            margin-bottom: 15px;
+            text-decoration: underline;
+        }
+        #poems p {
+            margin: 15px 0;
+            font-size: 1.2rem;
+            color: #fff5fc;
+        }
+
+        /* Music Play/Pause button */
+        #audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 102, 178, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 102, 178, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            #intro h1 { font-size: 2rem; }
+            #intro p { font-size: 1.2rem; }
+            #letter, #final, #poems { font-size: 1rem; padding: 30px 15px; }
+            #poems h2 { font-size: 1.5rem; }
+            #poems p { font-size: 1rem; }
+            #final { font-size: 1.3rem; }
+            #final .final-text { padding: 8px 15px; }
+            #audio-control { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="intro">
+    <h1>Bu sadece bir 👋🏻 değildi Nisanurum…</h1>
+    <p>Her gün uzun uzun yazardık... Bu sefer sadece bu geldi: 👋🏻<br>
+    Bu site ise... söyleyemediğim her şeyi anlatmak için var.</p>
+</div>
+
+<div id="letter"></div>
+
+<div id="poems">
+    <h2>Aşkımız gibi Şiirler</h2>
+    <p>Senle gülerken, dünya sessiz,
+Kalbim seninle atar delicesine.
+Bakışın yeter bana, söz gereksiz,
+Nisanurum, sensin kalbimin ilacı yine.
+
+    <p>Birlikte çizdik hayali yarını,<br>
+Adını kalbime dağladım ben.<br>
+Öykü'müz olacak bir gün kızımız,<br>
+Aşkımızdan doğacak cennet denen.</p>
+
+    <p>Herkes biliyor ikimizin sevdalı,<br>
+Ama sevgili olduğumuzu bir biz anlıyoruz.<br>
+Bu gizli masalda kahraman sen,<br>
+Ben sadece sana tutulan bir yolcuyum.</p>
+
+    <h3>Benim için  en güzel şiir gözlerin</h3>
+
+    <p>Ömrüm Seninle<br>
+Ömrüm seninle anlamlı güzel,<br>
+Her an aklımda bir tek sen gel.<br>
+Nisanurum, sensiz bomboş bu hayat,<br>
+Seninle tamam, başka neye gerek?</p>
+
+    <p>Kalbimde senin adın yazılı,<br>
+Seni sevmenin bir tarifi mi var ki?<br>
+Sonsuz aşk bu, öyle basit değil,<br>
+Sen benim her şeyimsin, bil yeter ki.</p>
+
+    <p>Sadece Sen<br>
+Bana sadece sen lazımsın inan,<br>
+Başka kimseye dönmez bu can.<br>
+Gözlerin dert, gülüşün ilaç,<br>
+Sana aşık olmak bir başka savaş.</p>
+
+    <p>Kazanan benim, kaybetmem seni,<br>
+Her duamda çıkar adın dilime.<br>
+Nisanurum, sen benim kaderim,<br>
+Bu gönül bir tek seni severim.</p>
+
+    <p>Kalbimin Tek Sahibi<br>
+Ne zaman adını ansam içim ürperir,<br>
+Gözlerin aklıma gelir, kalbim titrer bir bir.<br>
+Geceleri yıldızlar bile seni fısıldar,<br>
+Kalbimde sen varsın, başka kim anlar?</p>
+
+    <p>Bir tebessümün yeter bütün dertlere,<br>
+Sana bakan gözler başka yere bakar mı he?<br>
+Dünyamda sen varsın, başka kim isterim?<br>
+Nisanurum, sensin her gecemin sebebi.</p>
+
+    <p>Gözlerinle başlar sabahlarım,<br>
+Sen gül yeter, tüm dertlerim dağılır aniden.<br>
+Bir ömür seninle, başka ne isterim?<br>
+Sen olmasan bu canı neyle avuturum bilmem.</p>
+
+    <p>Aşkın Adı<br>
+Aşkın adını sordular, “Nisanurum” dedim,<br>
+Bir gülüşünle ben hayata yeniden geldim.<br>
+Dizlerim titrer seni gördüğüm anda,<br>
+Kalbim atmaz sensiz hiçbir zamanda.</p>
+
+    <p>Her gece adını yazıyorum göğe,<br>
+Yıldızlar bile tanır seni her köşede.<br>
+Bir tek sen lazımsın bana inan,<br>
+Başka hiçbir şey umrumda değil o zaman.</p>
+
+    <p>Sensiz bu hayat boş bir masal,<br>
+Seninle her şey güzel, her şey özel.<br>
+Dünyam seninle tam, başka yok,<br>
+Gözlerine bakınca kalbim dolup taşar çok.</p>
+
+    <p>Gözlerin Yeter<br>
+Ne bahar ne yaz, bana gözlerin yeter,<br>
+Bakışlarınla erir kalpte ne dert varsa eğer.<br>
+Bir gülüşün var ya, dünyamı değiştirir,<br>
+Sen gülünce her şey sanki yeniden dirilir.</p>
+
+    <p>Adınla başlar her yeni hikaye,<br>
+Nisanurum, kalbim hep sana meyleder.<br>
+Bir bakış, bir nefes, bir tek sen,<br>
+Başka kim olur ki bu gönülde benden?</p>
+
+    <p>Her gece düşlerimde sen varsın,<br>
+Sensiz olmuyor, bu kalp hep yarım.<br>
+Sen benim yolum, sen benim kaderim,<br>
+Bu can seninle tamam, başka kim?</p>
+
+    <p>Sensiz Olmaz<br>
+Düşlerimde hep sen, uyanınca da sen,<br>
+Kalbim sadece seninle atar her an.<br>
+Adınla yanar içimdeki yangın,<br>
+Sensiz bir dünya, bomboş bir akşam.</p>
+
+    <p>Nisanurum, seninle anlamlı bu hayat,<br>
+Bir ömür değil, bin ömür feda.<br>
+Gözlerin yolumun tek aydınlığı,<br>
+Seninle başlar kalbimin yazgısı.</p>
+
+    <p>Ne rüya ne gerçek, sensin tek gerçek,<br>
+Sen gül, dünyam dönsün sadece.<br>
+Bir adın yeter bütün dertleri silmeye,<br>
+Sen benim kaderim, tek dileğim hep senle.</p>
+
+    <p>Benimle Kal<br>
+Gözlerin yakar geçer tüm karanlığı,<br>
+Gülüşünle doğar sabahın aydınlığı.<br>
+Birlikte yürüdüğümüz her yol cennet,<br>
+Sen varken dünya olur bana servet.</p>
+
+    <p>Adını anınca titrer bu gönül,<br>
+Aşkınla her gece olur bir ömür.<br>
+Sensiz geçen vakit bana haram,<br>
+Nisanurum, sen olmadan kalbim yarım.</p>
+
+    <p>Her sabah seninle başlasın,<br>
+Per gece ellerinde son bulsun.<br>
+Ömrüm seninle güzel olacak,<br>
+Benimle kal, başka ne lazım?</p>
+
+    <p>Kalbimdeki Tek İsim<br>
+Bir ad var ki gece gündüz içimde,<br>
+Söylemeden duramıyorum dilimde.<br>
+Kalbimdeki tek isim sensin inan,<br>
+Nisanurum, senle atan her zaman.</p>
+
+    <p>Bir bakışın yeter tüm dünyaya,<br>
+Gözlerin açar içimdeki bahara.<br>
+Senle başlar her yeni düş,<br>
+Sensiz olmuyor, kalbim hep küs.</p>
+
+    <p>Gözlerin derya, gülüşün umut,<br>
+Bu kalpte başka kimseye yer yok.<br>
+Bir ömür değil, sonsuz ol benimle,<br>
+Sensin tek dileğim bu kalpte gizlice.</p>
+
+    <p>İçimdesin Hep<br>
+Valla ne yalan söylim, aklımda hep sen,<br>
+Nereye baksam aklıma gelirsin hemen.<br>
+Gözlerin bi başka, bakışı yetiyo,<br>
+Nisanurum, kalbim hep seni istiyo.</p>
+
+    <p>Senle başlar her sabahın güneşi,<br>
+Sensiz olmuyo, içimde bi ateşi.<br>
+Adını yazdım şu kalbin en dibine,<br>
+Ölsem bile silinmez bak sevgine.</p>
+
+    <p>Her gece dualarımda adın var,<br>
+Sen olmazsan bu kalp neyle avunar?<br>
+Ankara’nın sokakları şahidim,<br>
+Sana olan aşkımı dünyaya haykırırım.</p>
+
+    <p>Bi Tek Sen<br>
+    Ne sokaklar gezdim, ne yollar gördüm,<br>
+    Sen gibisini valla ben daha görmedim.<br>
+    Bir bakışın var ya, içimi yakıyo,<br>
+    Adını anınca kalbim bi garip oluyo.</p>
+
+    <p>Gözlerin dert, gülüşün derman,<br>
+    Seninle hayat, sensiz hep haram.<br>
+    Bi tek sen lazımsın bu adama,<br>
+    Başka bi şey istemem valla.</p>
+
+    <p>Ankara geceleri şahidim benim,<br>
+    Seni sevmekmiş bu kalbin tek nedeni.<br>
+    Sen gül yeter, bana başka bi şey deme,<br>
+    Ömrüm seninle, kalbim seninle.</p>
+
+    <p>Sana Yazılıyım<br>
+    Beni sorarsan sana yazılıyım,<br>
+    Gözlerine bakınca kayboluyum.<br>
+    Bi tek sen var bu gönlün köşesinde,<br>
+    Nisanurum, adın bile yeter bence.</p>
+
+    <p>Ankara rüzgarı gibi esersin içime,<br>
+    Sen gelsen, kalır gerisi hep dışarda.<br>
+    Gözlerinle başlar bu şehrin sabahı,<br>
+    Sen gülünce doğar içimde baharı.</p>
+
+    <p>Sensiz olmuyo, denedim valla,<br>
+    Bi sen var içimde, başka kim var da?<br>
+    Her gece seni sayıklıyom düşümde,<br>
+    Ömrüm seninle, sonsuza senle.</p>
+
+    <p>Aşkın Ankara Gibi<br>
+    Aşkın Ankara gibi, bi ayrı güzel,<br>
+    İçimde sen olunca her şey özel.<br>
+    Bir bakışın var ya, ciğerime dokunur,<br>
+    Nisanurum, seni sevmek başka gurur.</p>
+
+    <p>Yolları seninle yürümek isterim,<br>
+    Her gece seni özleyip deliririm.<br>
+    Bi gülüşüne dünya kurarım sana,<br>
+    Yeter ki de ki “Benimle kal hayata.”</p>
+
+    <p>Sen varken sokaklar bile başka,<br>
+    Her yerden adın çınlar Ankara’da.<br>
+    Ne yollar ne şehirler, sensiz bomboş,<br>
+    Ömrüm seninle, aşkın bana çok hoş.</p>
+
+    <p>Deli Gönlüm<br>
+    Deli gönlüm hep seni ister,<br>
+    Başka kimseye bakmaz, beceremez.<br>
+    Bi sen varsın aklımın köşesinde,<br>
+    Her gece düşüyo adın dilime.</p>
+
+    <p>Ankara sokakları şahidim buna,<br>
+    Nisanurum, sen benim tek umudum ha.<br>
+    Ne desem az gelir sana dair,<br>
+    Gözlerin var ya, bakınca içim kayar.</p>
+
+    <p>Sensiz geçen zaman haram bana,<br>
+    Bi ömür senle, vallahi tek duama.<br>
+    Gel de bitsin bu hasretin acısı,<br>
+    Sen ol, dünya olsun bana sıfır sıkıntı.</p>
+
+    <p>Bi Sen Varsın<br>
+    Bu şehrin kaldırımları seni anlatıyo,<br>
+    Adını anınca kalbim hep yanıyo.<br>
+    Bi sen varsın bana yâr olacak,<br>
+    Başkasına dönmez gözüm, bak açık açık.</p>
+
+    <p>Nisanurum, ne güzel bi isim,<br>
+    Adını yazdım kalbimin içine gizli.<br>
+    Sensiz bu Ankara bomboş valla,<br>
+    Sen gelsen, yollar bile bayramda.</p>
+
+    <p>Gülüşüne kurban olur bu deli,<br>
+    Seninle başlar günün en güzeli.<br>
+    Dert tasa varsa, hepsi silinir,<br>
+    Bir tek sen yeter bana sevgilim.</p>
+
+    <p>Ankara’nın İçinde<br>
+    Ankara’nın içinde kayboldum senle,<br>
+    Gözlerin var ya, alıyo beni benden.<br>
+    Her gece adınla uyuyom valla,<br>
+    Sensiz olmuyo, içim hep paramparça.</p>
+
+    <p>Bi tebessüm et, yeter bana bak,<br>
+    Dünya dursa da, sen kal yanımda.<br>
+    Adını anınca titrer dizlerim,<br>
+    Sana aşık olmaktan hiç geri durmadım.</p>
+
+    <p>Her sokak, her köşe hatırlatır seni,<br>
+    Nisanurum, sen benim tek gerçeğim.<br>
+    Başka kimseyi koymam kalbimin yanına,<br>
+    Sensin gönlümdeki tek kadın anla.</p>
+
+    <p>Her Şeyim Sensin<br>
+    Ne yapsam, ne etsem aklımda sen,<br>
+    Gözlerin var ya, yakıyo içimden.<br>
+    Adınla başlar bu kalbin her günü,<br>
+    Sensiz olmuyo, içim hep hüzünlü.</p>
+
+    <p>Ankara geceleri anlatsın seni,<br>
+    Nisanurum, sen benim tek derdim.<br>
+    Bir gülüşün yeter bütün derde,<br>
+    Gel de bitsin bu aşkın hasreti be.</p>
+
+    <p>Sensiz bi ömür bana haram,<br>
+    Sen yanımda ol, yeter bana kalan.<br>
+    Her şeyim sensin, başka kimse değil,<br>
+    Ömrüm seninle, adım gibi emin.</p>
+
+    <p>Sen Olmadan Olmuyo<br>
+    Sen olmadan olmuyo, yalan dünya,<br>
+    Sensiz geçen her gün hep bana bela.<br>
+    Bi bakışın var ya, içimi yakıyo,<br>
+    Nisanurum, seni sevmek kolay mı sanıyo?</p>
+
+    <p>Adınla başlar Ankara’nın gecesi,<br>
+    Gözlerinle aydınlanır her köşesi.<br>
+    Sensiz olmaz, vallahi denedim,<br>
+    Aklım fikrim hep sende, gizlemiyom ki.</p>
+
+    <p>Her gece dualarımda sen varsın,<br>
+    Bu gönül bi tek seni ister, anladın.<br>
+    Gel de bitsin bu aşkın sancısı,<br>
+    Sen ol, her şey olur bana mutlusu.</p>
+
+    <p>İzmir’de Sen, İçimde Ankara<br>
+    İzmir’in rüzgarı esse de yüzüme,<br>
+    Aklım hep Ankara’da, gözlerinle.<br>
+    İki şehir arası seninle dolu,<br>
+    Kalbim senle, aşkın bana yolu.</p>
+
+    <p>Deniz kenarı bile sensiz eksik,<br>
+    Bi bakışın yeter bana sevdik.<br>
+    Nisanurum, Ankara’mın türküsü,<br>
+    İzmir’deyim ama kalbim hep o köşede.</p>
+
+    <p>İki şehir tek aşk, senle güzel,<br>
+    Gözlerinle başlar bu hikaye özel.<br>
+    Sensiz ne deniz, ne martı ne güneş,<br>
+    Kalbimde Ankara, yanımda sen, her şey serbest.</p>
+
+    <p>İki Şehir Tek Gönül<br>
+    Ankara’nın sokakları hâlâ içimde,<br>
+    Ama İzmir’deyim, sen varsın her köşede.<br>
+    Ne İzmir, ne Ankara; fark etmez bana,<br>
+    Yeter ki sen ol, her yer cennet bana.</p>
+
+    <p>Kordon’da yürüsem, aklım sende,<br>
+    Kocatepe’de dua ederim gizlice.<br>
+    Gözlerin İstanbul, gülüşün İzmir,<br>
+    Kalbim Ankara, ama aşkın her şehir.</p>
+
+    <p>Adını yazdım şu kumsalın üstüne,<br>
+    Nisanurum, sen benim tek dileğim yine.<br>
+    Ne İzmir ne başka şehir, tek bildiğim,<br>
+    Bu gönlün sahibi sensin, tek istediğim.</p>
+
+    <p>Kordon’da Sen, Kalbimde Ankara<br>
+    Kordon’da oturuyom, aklımda sen,<br>
+    Gözlerin geliyo gözümün önüne hemen.<br>
+    İzmir’in denizi serin esiyo,<br>
+    Ama içim, valla, bi senle ısınıyo.</p>
+
+    <p>Nisanurum, ne güzel adın var,<br>
+    Ankara’da başladı kalbimde bu bahar.<br>
+    Şimdi İzmir’deyim ama fark etmez,<br>
+    Sen varsın ya, kalbim hep şen.</p>
+
+    <p>Bir martı çığlığı gibi adını anarım,<br>
+    Sensiz her yer bomboş, inanırım.<br>
+    İzmir başka güzel ama sen olunca,<br>
+    Ankara olur burası, bi sen olunca.</p>
+
+    <p>İzmir’de Ankara’yı Sevdim<br>
+    İzmir sokaklarında Ankara’yı buldum,<br>
+    Her adımda gözlerini anımsadım.<br>
+    Deniz kokusu karıştı saçlarına,<br>
+    Nisanurum, senle oldu bu şehir masalına.</p>
+
+    <p>Ankara’nın rüzgarı İzmir’de esse,<br>
+    Yine de gözlerin bana yeter he.<br>
+    Bir bakışın yetiyo, dünya duruyo,<br>
+    Aşkınla kalbim her gece yanuyo.</p>
+
+    <p>Sensiz olmaz bu koca şehir,<br>
+    Sen gelince açar içimdeki çiçekler bir bir.<br>
+    Ne Ankara, ne İzmir önemli,<br>
+    Sen yanımda ol, başka kim ne bilsin ki?</p>
+
+    <p>Aşkın İki Şehir Arası<br>
+    Ankara’dan çıktım, geldim İzmir’e,<br>
+    Ama aklım kaldı gözlerinde he.<br>
+    Bir tebessüm et, yeter bana valla,<br>
+    Nisanurum, sen benim kalbimin Ankara’sı hâlâ.</p>
+
+    <p>İki şehir, iki yürek ama tek aşk,<br>
+    Ne yollar ne mesafeler koymaz aramıza bak.<br>
+    İzmir’in sahili sensiz eksik,<br>
+    Seninle dolsun, bitsin bu hasretlik.</p>
+
+    <p>Martılar uçuşur, adını söyler,<br>
+    Her köşe başında adın yankılar.<br>
+    Ankara’yı senle sevdim, İzmir’i de,<br>
+    Ömrüm seninle, nereye gidersen oradayım ben de.</p>
+
+    <p>Ömrümün Sebebi<br>
+    Beni sorarsan, sebebim sensin,<br>
+    Gözlerin var ya, yakıyo içimi binsin.<br>
+    Her gece hayalinle uyuyom, yalan mı,<br>
+    Sana olan bu sevda, bitmez anamı.</p>
+
+    <p>Gülüşün yeter, başka bi şey istemem,<br>
+    Bi bakışınla dünyayı sererim önüne hemen.<br>
+    Kalbim seninle atıyo, duysana,<br>
+    Nisanurum, sen benim tek duama.</p>
+
+    <p>Ne yapıyım sensiz, nefes bile haram,<br>
+    Ömrüm senin, bak, adım gibi tamam.<br>
+    İçimde fırtına, dışımda sakin,<br>
+    Ama sana gelince içim cayır cayır yanın.</p>
+
+    <p>Gönlümün Sahibi<br>
+    Valla bak, gönlümün sahibi sensin,<br>
+    Dönüp bakmam başka kimseye, bilirsin.<br>
+    Adını anınca kalbim hızlanıyo,<br>
+    Gözlerin gözümde bi başka yanlıyo.</p>
+
+    <p>Sevdan içime işledi bir kere,<br>
+    Çıkmaz artık, uğraşsam da nafile.<br>
+    Gülüşün var ya, ilaç gibi bana,<br>
+    Sen gül, ben de ömrümü koyim ortaya.</p>
+
+    <p>Başka kimse dolduramaz yerini,<br>
+    Sen benim hem başım, hem derdimin ilacı.<br>
+    Bi ömür senle, ne güzel hayal,<br>
+    Nisanurum, sen benim en güzel masal.</p>
+
+    <p>Gönlümün Başı Sen<br>
+    Valla billaha gönlümün başı sensin,<br>
+    Her gece rüyamda, adınla uyuyom kesin.<br>
+    Bi bakışın yetiyo yakmaya içimi,<br>
+    Dünya dursa da, sen kal yanımda emi?</p>
+
+    <p>Aşk dediğin senle güzel be gülüm,<br>
+    Gözlerin var ya, yakıyo benim gönlüm.<br>
+    Gülüşünle açar içimde bi bahar,<br>
+    Ne yaparsam yapıyım, aklım sende karar.</p>
+
+    <p>Bi sen varsın kalbimde, başkası yalan,<br>
+    Sen gelsen, bak, dünya bile bana tamam.<br>
+    Nisanurum, sen benim cennetimsin,<br>
+    Ne desem az gelir, sen bi efsanesin.</p>
+
+    <p>İçimden Gelensin<br>
+    Bak, ne desem yalan olur senden gayrı,<br>
+    İçimden gelen bi tek senin adın, ayı.<br>
+    Aşka küsmüş kalbimi sen dirilttin,<br>
+    Seni seviyorum desem, az bile bildin.</p>
+
+    <p>Her cümlem sana çıkar, bilmeden,<br>
+    Gözlerinle başlar bu hikaye, gizliden.<br>
+    Dudaklarında saklı cennet yolu,<br>
+    Bi ömür senle olsun, bak başka ne olu?</p>
+
+    <p>Yana yana geldim bu gönül yangınında,<br>
+    Adınla yanarım, alevler içinde.<br>
+    Derdim sensin, devası da sen,<br>
+    Nisanurum, senle başlar benim her düşen.</p>
+
+    <p>Gözlerin Yeter<br>
+    Gözlerin var ya, anlatamam bak,<br>
+    Dünyayı yakar o bakışın bir an.<br>
+    Sen bi gül, ben bütün dertleri satarım,<br>
+    Sen gelsen, bi ömür beklerim, inanırım.</p>
+
+    <p>Ankaralıyım ama kalbim senden yana,<br>
+    Bi sen varsın gönlümün tam ortasında.<br>
+    Ne yıldızlar, ne ay, yanına yaklaşamaz,<br>
+    Sen benim gecemde tek ışığım, az mı az?</p>
+
+    <p>Kalbim yeminli senin adına,<br>
+    Nisanurum, sen benim alın yazıma.<br>
+    Gel de bitsin bu aşkın sınavı,<br>
+    Bi sen lazımsın bana, başka bi şey aramıyo.</p>
+
+    <p>Adınla Başlar<br>
+    Ne zaman adını ansam içim bi tuhaf,<br>
+    Dilimde sen, kalbimde aşkın saf.<br>
+    Ankaralıyım derim gururla,<br>
+    Ama sen gelince, biter bütün kurala.</p>
+
+    <p>Bakışların delip geçiyo içimi,<br>
+    Sensiz bomboş, valla yemin ediyim.<br>
+    Gülüşün yeter bana dünyanın üstüne,<br>
+    Her lafım senin, gizlice ismine.</p>
+
+    <p>Nisanurum, her hecede adın var,<br>
+    Sensiz bi gün geçmez, hep akar.<br>
+    Bi sen lazımsın bana, ne para ne pul,<br>
+    Aşkınla doluyum, yüreğim dopdolu.</p>
+
+    <p>İçimden Taşan<br>
+    Ne söylesem eksik kalır senin yanında,<br>
+    Aşkı anlatsam, bi sen gelirsin aklıma.<br>
+    Yana yana geldim yolların sonuna,<br>
+    Ama sen bi bakınca, yıkılır her kuruntu da.</p>
+
+    <p>Gözlerin bi alem, içimden taşar,<br>
+    Adınla yanar kalbim, sana aşikar.<br>
+    Gülüşün yeter, dünya susar,<br>
+    Sen konuşunca, cümleler topar.</p>
+
+    <p>Valla bak, senden ötesi yalan,<br>
+    Gönlümde kurulu bi sen, bi de zaman.<br>
+    Nisanurum, adın ezberimde,<br>
+    Ömrüm seninle yazılı, harfiyle hecesinde.</p>
+
+    <p>Kalbim Yeminli<br>
+    Bak, kalbim yeminli, adınla atar,<br>
+    Her gece dualarım sana akar.<br>
+    Sen gülünce, dünya bi başka,<br>
+    Varlığın yetiyo, dertlere yasak.</p>
+
+    <p>Ne desem boş, bi sen anlarsın,<br>
+    Gözlerinle içimi okursun, farkındasın.<br>
+    Senle başlar bu gönlümün masalı,<br>
+    Nisanurum, aşkınla dolar her yanı.</p>
+
+    <p>Dünya dursa da, kalbim durmaz,<br>
+    Senin aşkınla yanar, yanar, susmaz.<br>
+    Sen olunca biter bütün telaş,<br>
+    Gönlümde tek sensin, gerisi yalanla taş.</p>
+
+    <p>Sensiz Olmaz<br>
+    Valla sensiz bi ömür geçmez be yar,<br>
+    Gönlümde bi sen varsın, başka ne var?<br>
+    Her gece düşlerim adınla başlar,<br>
+    Sensiz olsam, dünya bile yavan kalır.</p>
+
+    <p>Gözlerin aklımı alıyo bakışta,<br>
+    Sana dokunmak, cennetin kapısında.<br>
+    Ne ay, ne yıldız, sen başka bi alem,<br>
+    Gülüşünle yanar içimdeki her hecem.</p>
+
+    <p>Ankaralıyım, lafım nettir, dosdoğru,<br>
+    Kalbimde sen varsın, başka kim olurdu?<br>
+    Nisanurum, senle yazılmış bu kader,<br>
+    Sensiz bi an düşünemem, mümkün mü haber?</p>
+
+    <p>Kalbim Seninle<br>
+    Kalbim seninle atar, başka kim duyar,<br>
+    Sen gelsen dünyam bi anda aydınlanır.<br>
+    Bi bakışın yeter, çözer bütün dertleri,<br>
+    Gözlerinle yanar içimdeki şehirleri.</p>
+
+    <p>Ankara şivesiyle derim sana: gülüm,<br>
+    Sensiz olmaz bu hayat, valla bülbülüm.<br>
+    Dudakların bi bahar, gözlerin bi kış,<br>
+    Sen gelsen gönlümde kopar fırtınalar, yağış.</p>
+
+    <p>Ne zaman adını ansam içim titrer,<br>
+    Aşkınla yanarım, bi sen yetersin der.<br>
+    Nisanurum, her hecemde senin adın,<br>
+    Bu gönül seninle buldu gerçek tadın.</p>
+
+    <p>Senle Güzel<br>
+    Bak be gülüm, bu dünya senle güzel,<br>
+    Aklım, fikrim hep sende, bilesin ezel.<br>
+    Her gece yıldızlara seni anlatırım,<br>
+    Ne desem az gelir, sen bi başkasın.</p>
+
+    <p>Gözlerin yakar içimi cayır cayır,<br>
+    Ankaralı gönlüm, sana meftun, ayır.<br>
+    Dudaklarınla başlar içimdeki şiir,<br>
+    Adınla çarpar kalbim, susmaz, hayır.</p>
+
+    <p>Sen varsın ya, başka ne isterim,<br>
+    Dünyayı satarım, bi gülüşüne yeterim.<br>
+    Nisanurum, sen benim cennetimsin,<br>
+    Seninle başlar, seninle biter nefesim.</p>
+
+    <p>Bi Gülüşün Yeter<br>
+    Bak be gülüm, yüreğim senle dolu,<br>
+    Gülüşün var ya, yeter bana yolu.<br>
+    Bi sen varsın, ötesi bomboş, yalan,<br>
+    Sensiz yaşanmaz bu gönül her an.</p>
+
+    <p>Ankaralı yüreğimle diyorum sana,<br>
+    Adınla başlar her sabah bana.<br>
+    Ne yıldız ne güneş, sen olmasan,<br>
+    Bi yanım hep eksik, hep darmadan.</p>
+
+    <p>Yüreğim seninle, başka yer tanımaz,<br>
+    Nisanurum, kalbim sensiz dayanmaz.<br>
+    Sözüm nettir, lafı dolandırmam,<br>
+    Sensiz bu gönül valla hiç tamamlanmam.</p>
+
+    <p>Bensiz Düşünme<br>
+    Sakın ha düşünme bensiz bir günü,<br>
+    Yüreğim senle yanar, senle büyür hüzün.<br>
+    Her an aklımdasın, gizli gizli değil,<br>
+    Adını kazıdım, hem kalbe hem şiir.</p>
+
+    <p>Gözlerin değdi mi, yandım bittim,<br>
+    Ankaralı gönlüm, sana kilitli gittim.<br>
+    Sensiz bi yol, yol değil be yarim,<br>
+    Sen varsın ya, ben işte o zaman varım.</p>
+
+    <p>Ne zaman gülümsesen dünya değişir,<br>
+    Senle geçer ömür, hiç eskimezmiş.<br>
+    Nisanurum, aşkın bambaşka biçim,<br>
+    Seninle yazılmış gönlümdeki şiirim.</p>
+
+    <p>Ömrümün İçisin<br>
+    Sen varsan her şey tamam, sensiz hep yarım,<br>
+    Aşkın bi yangın oldu, içimi sararım.<br>
+    Ankara şivesiyle diyom ki sana:<br>
+    “Gülüm, sen benim kalbimin tam ortası ya!”</p>
+
+    <p>Bakışın var ya, delirtir beni,<br>
+    Her gece adını sayıklarım gizli.<br>
+    Nisanurum, senin adın bi şarkı,<br>
+    Her notası benim için ayrı bi farklı.<br>
+
+    <p>Ömrüm senle güzel, sensiz bi never,<br>
+    Ne yıldız kalıyo gecemde ne de seher.<br>
+    Gel de bitsin bu dert, bi sen eksik,<br>
+    Kalbim senle tamam, sensiz hep eksik.</p>
+</div>
+
+<div id="final">
+    Sonsuzluğa bir şans daha verelim mi?<br>
+    <span id="finalTextClickable" class="final-text">💍 **Nisanur & Eymen** 💖</span><br>
+</div>
+
+<div id="hearts"></div>
+
+<audio id="background-music" loop>
+    <source src="cem_adrian_ben_seni_cok_sevdim.mp3" type="audio/mpeg">
+    Tarayıcınız ses dosyasını desteklemiyor.
+</audio>
+
+<button id="audio-control">🔇</button>
+
+<script>
+    const heartsContainer = document.getElementById('hearts');
+    const backgroundMusic = document.getElementById('background-music');
+    const audioControl = document.getElementById('audio-control');
+    const finalTextClickable = document.getElementById('finalTextClickable');
+
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+        heart.style.setProperty('--slide-x', (Math.random() * 100 - 50) + 'px');
+        heart.style.setProperty('--rotation-deg', (Math.random() * 180 - 90) + 'deg');
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+    }
+    setInterval(createHeart, 300);
+
+    let isPlaying = false; // Initial state of music
+    audioControl.textContent = '🔇'; // Initial button text for "muted"
+
+    // Load music playback time from local storage
+    document.addEventListener('DOMContentLoaded', () => {
+        const storedTime = localStorage.getItem('musicCurrentTime'); // Corrected variable name
+        if (storedTime) {
+            backgroundMusic.currentTime = parseFloat(storedTime);
+        }
+        // Attempt to autoplay (subject to browser restrictions)
+        backgroundMusic.play().then(() => {
+            isPlaying = true;
+            audioControl.textContent = '🎵';
+        }).catch(e => {
+            console.warn("Müzik otomatik başlatılamadı:", e);
+            // User interaction is expected. Button remains '🔇' by default.
+        });
+    });
+
+    // Save current music playback time when leaving the page
+    window.addEventListener('beforeunload', () => {
+        if (backgroundMusic) {
+            localStorage.setItem('musicCurrentTime', backgroundMusic.currentTime); // Corrected variable name
+        }
+    });
+
+    audioControl.addEventListener('click', () => {
+        if (isPlaying) {
+            backgroundMusic.pause();
+            audioControl.textContent = '🔇';
+        } else {
+            backgroundMusic.play();
+            audioControl.textContent = '🎵';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    const introSection = document.getElementById('intro');
+    const letterSection = document.getElementById('letter');
+    const poemsSection = document.getElementById('poems');
+    const finalSection = document.getElementById('final');
+
+    const letterText = `Aşkım Nisanurum…
+
+Her gün uzun uzun konuşurduk ya hani…
+İçimizi dökerdik, saatlerce yazardık…
+Bu sefer sadece bir 👋🏻 geldi senden…
+Ama o elin altında,
+bir veda değil, bir suskunluk vardı…
+Ben de bu siteyi yaptım…
+Çünkü kalbimde taşıdığım sözler,
+bir mesaj kutusuna sığmayacak kadar büyüktü artık…
+Sana bir şey diyeyim mi?
+Biz her şeyden önce birbirimizi çok sevdik.
+İçimizde çocuk gibi sevindik,
+geleceğimizi konuştuk,
+kızımızın adını bile koyduk: Öykü…
+Bu, sıradan bir aşk değildi.
+Bu, “unutulur” denip geçilecek bir hikâye değildi.
+Bu, sonsuzlukla sözleşmiş iki kalbin hikayesiydi…
+Şimdi senden bir şey istiyorum…
+O ilk gün gibi, yeniden başlayalım mı?
+Yaralarımızı saralım…
+Sadece bir şans daha…
+Sonsuzluğa birlikte yürüyelim mi?
+Ben hazırım.
+Seninle, Öykü’müzle, bir ömür boyu.
+Seni ilk günkü gibi seviyorum…
+Ve yine seninle yaşlanmak istiyorum…`;
+    let i = 0;
+    function typeLetter() {
+        const container = document.getElementById('letter');
+        if (i < letterText.length) {
+            const char = letterText.charAt(i);
+
+            if (char === '\n') {
+                container.appendChild(document.createElement('br'));
+                if (letterText.charAt(i + 1) === '\n') {
+                    container.appendChild(document.createElement('br'));
+                    i++;
+                }
+            } else {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = char;
+                container.appendChild(span);
+            }
+
+            i++;
+            setTimeout(typeLetter, 25);
+        } else {
+            document.body.style.overflowY = 'auto';
+            setTimeout(() => {
+                letterSection.classList.remove('show');
+                setTimeout(() => {
+                    letterSection.style.display = 'none';
+                    poemsSection.style.display = 'block';
+                    finalSection.style.display = 'block';
+                    setTimeout(() => {
+                        poemsSection.classList.add('show');
+                        finalSection.classList.add('show');
+                    }, 2000);
+                }, 2000);
+            }, 3000);
+        }
+    }
+
+    window.onload = () => {
+        introSection.style.display = 'block';
+        setTimeout(() => {
+            introSection.classList.add('show');
+        }, 50);
+
+        setTimeout(() => {
+            introSection.classList.remove('show');
+            setTimeout(() => {
+                introSection.style.display = 'none';
+                letterSection.style.display = 'block';
+                setTimeout(() => {
+                    letterSection.classList.add('show');
+                    typeLetter();
+                }, 50);
+            }, 2000);
+        }, 8000);
+    };
+
+    finalTextClickable.addEventListener('click', () => {
+        // Save current music time when navigating to the photo page
+        if (backgroundMusic) {
+            localStorage.setItem('musicCurrentTime', backgroundMusic.currentTime); // Corrected variable name
+        }
+        window.location.href = 'sonsuzluk.html'; // Name of the photo page
+    });
+</script>
+
+</body>
+</html>
