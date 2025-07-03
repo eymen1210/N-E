@@ -63,6 +63,21 @@
             margin-bottom: 20px;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
         }
+        
+        .poem-section { /* Bu stil daha önce sonsuzluk.html için vardı, buraya da ekledim */
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(255, 102, 178, 0.15);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 102, 178, 0.3);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #ffe6fb;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            text-align: center;
+        }
 
         /* Galeri Stilleri */
         .gallery {
@@ -186,12 +201,12 @@
             Gönlümün en derin köşesinde saklısın, bir inci misali,<br>
             Seninle her an, bir ömre bedel, paha biçilmez bir hazine.
         </p>
-<div class="poem-section">
-    <p>İçimde yanar kor ateşi, adı Nisanurum,<br>
-    Her sabah uyanınca düşer aklıma hüzün.<br>
-    Çok özledim seni gülüm gel artık yanıma,<br>
-    Kırdım seni, farkındayım, pişmanım da canımdan çok.</p>
-</div>
+        <div class="poem-section">
+            <p>İçimde yanar kor ateşi, adı Nisanurum,<br>
+            Her sabah uyanınca düşer aklıma hüzün.<br>
+            Çok özledim seni gülüm gel artık yanıma,<br>
+            Kırdım seni, farkındayım, pişmanım da canımdan çok.</p>
+        </div>
         ---
 
         <h2>Aşkımız</h2> 
@@ -260,8 +275,9 @@
         <button id="muzikKontrol">Müziği Başlat / Duraklat</button>
     </div>
     
-    <audio id="muzikOynatici" loop> <source src="cem_adrian_ben_seni_cok_sevdim.mp3" type="audio/mpeg">
-      Tarayıcınız ses etiketini desteklemiyor.
+    <audio id="muzikOynatici" loop>
+        <source src="cem_adrian_ben_seni_cok_sevdim.mp3" type="audio/mpeg">
+        Tarayıcınız ses etiketini desteklemiyor.
     </audio>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.2/simple-lightbox.min.js"></script>
@@ -271,12 +287,24 @@
 
         // Sayfa yüklendiğinde, varsa önceki müzik süresini ayarla ama otomatik başlatma
         document.addEventListener('DOMContentLoaded', () => {
-            const storedTime = localStorage.getItem('muzikCurrentTime');
+            const storedTime = localStorage.getItem('muzikCurrentTime'); // Key adı 'muzikCurrentTime'
             if (storedTime) {
                 muzik.currentTime = parseFloat(storedTime);
             }
-            // Sayfa yüklendiğinde butonun durumunu güncelle
+            // Sayfa yüklendiğinde butonun durumunu güncelle (müzik çalmasa bile)
             updateMuzikKontrolButonu();
+
+            // Müzik otomatik başlasın diye deneme (tarayıcılar engelleyebilir)
+            muzik.play().then(() => {
+                // Otomatik oynatma başarılı
+                updateMuzikKontrolButonu();
+            }).catch(e => {
+                console.warn("Müzik otomatik başlatılamadı:", e);
+                // Otomatik oynatma başarısız olursa butonu "Başlat" konumunda tut
+                updateMuzikKontrolButonu();
+                // Opsiyonel: Kullanıcıya müzik başlatma uyarısı verebilirsin.
+                // alert("Müzik otomatik başlatılamadı. Lütfen oynat düğmesine tıklayın.");
+            });
         });
 
         // Butona tıklandığında müziği oynat/durdur
@@ -295,17 +323,16 @@
         });
 
         // Müziğin çalma süresini düzenli aralıklarla kaydet (Her 5 saniyede bir)
-        // Kullanıcı sayfadan ayrılırken kaydetmek yerine daha güvenli bir yöntem.
         setInterval(() => {
             if (!muzik.paused) { // Sadece müzik çalıyorsa kaydet
-                localStorage.setItem('muzikCurrentTime', muzik.currentTime);
+                localStorage.setItem('muzikCurrentTime', muzik.currentTime); // Key adı 'muzikCurrentTime'
             }
         }, 5000); // 5 saniyede bir kaydet
 
-        // Müziğin çalma durumu değiştiğinde butonu güncelle
+        // Müzik durumu değiştikçe butonu güncelle
         muzik.addEventListener('play', updateMuzikKontrolButonu);
         muzik.addEventListener('pause', updateMuzikKontrolButonu);
-        muzik.addEventListener('ended', updateMuzikKontrolButonu); // Müzik bittiğinde de güncelleyelim
+        muzik.addEventListener('ended', updateMuzikKontrolButonu); 
 
         function updateMuzikKontrolButonu() {
             if (muzik.paused) {
@@ -316,7 +343,6 @@
                 muzikKontrolButonu.classList.add('playing');
             }
         }
-
 
         // SimpleLightbox'ı başlat
         document.addEventListener('DOMContentLoaded', function() {
