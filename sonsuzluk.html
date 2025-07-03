@@ -1,358 +1,332 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sonsuz Aşkımız: Nisanur ve Ben</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-    
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.2/simple-lightbox.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sonsuz Aşkımız: Nisanur ve Ben</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.2/simple-lightbox.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(to bottom right, #4b005f, #2c003e); /* Ana sayfanın tersi gradyan */
-            color: #fff;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(to bottom right, #4b005f, #2c003e); /* Ana sayfanın tersi gradyan */
+            color: #fff;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
 
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            margin: 30px auto;
-            box-shadow: 0 0 30px rgba(255, 102, 178, 0.4);
-            animation: fadeIn 1.5s ease-out;
-        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 30px auto;
+            box-shadow: 0 0 30px rgba(255, 102, 178, 0.4);
+            animation: fadeIn 1.5s ease-out;
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        h1 {
-            font-size: 2.8rem;
-            color: #ffb3ec;
-            margin-bottom: 25px;
-            text-shadow: 0 0 12px #ff99cc;
-        }
+        h1 {
+            font-size: 2.8rem;
+            color: #ffb3ec;
+            margin-bottom: 25px;
+            text-shadow: 0 0 12px #ff99cc;
+        }
 
-        h2 { /* Şiir ve Galeri başlığı için yeni stil */
-            font-size: 2.2rem;
-            color: #ffcce6;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 8px #ff99cc;
-            border-bottom: 2px solid rgba(255, 204, 230, 0.5); /* Alt çizgi */
-            padding-bottom: 10px;
-        }
+        h2 { /* Şiir ve Galeri başlığı için yeni stil */
+            font-size: 2.2rem;
+            color: #ffcce6;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 8px #ff99cc;
+            border-bottom: 2px solid rgba(255, 204, 230, 0.5); /* Alt çizgi */
+            padding-bottom: 10px;
+        }
 
-        p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-        }
-        
-        .poem-section { /* Bu stil daha önce sonsuzluk.html için vardı, buraya da ekledim */
-            margin-top: 30px;
-            padding: 30px;
-            background: rgba(255, 102, 178, 0.15);
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 102, 178, 0.3);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            color: #ffe6fb;
-            font-size: 1.15rem;
-            line-height: 1.7;
-            text-align: center;
-        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
 
-        /* Galeri Stilleri */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Küçük ekranlarda otomatik ayarlama */
-            gap: 15px; /* Fotoğraflar arası boşluk */
-            margin-top: 30px;
-            width: 100%;
-            max-width: 760px; /* Galerinin maksimum genişliği */
-            justify-content: center; /* Fotoğrafları ortala */
-        }
+        /* Galeri Stilleri */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Küçük ekranlarda otomatik ayarlama */
+            gap: 15px; /* Fotoğraflar arası boşluk */
+            margin-top: 30px;
+            width: 100%;
+            max-width: 760px; /* Galerinin maksimum genişliği */
+            justify-content: center; /* Fotoğrafları ortala */
+        }
 
-        .gallery-item {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(255, 102, 178, 0.6);
-        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 102, 178, 0.6);
+        }
 
-        .gallery-item a { /* Lightbox için a etiketi stilini düzenle */
-            display: block; /* Bağlantının tüm alanı kaplamasını sağla */
-            text-decoration: none; /* Alt çizgi olmasın */
-            color: inherit; /* Yazı rengini koru */
-        }
+        .gallery-item a { /* Lightbox için a etiketi stilini düzenle */
+            display: block; /* Bağlantının tüm alanı kaplamasını sağla */
+            text-decoration: none; /* Alt çizgi olmasın */
+            color: inherit; /* Yazı rengini koru */
+        }
 
-        .gallery-item img {
-            width: 100%;
-            height: 150px; /* Tüm fotoğrafların yüksekliğini sabitle */
-            object-fit: cover; /* Fotoğrafı kutuya sığdırırken oranlarını koru */
-            display: block;
-        }
+        .gallery-item img {
+            width: 100%;
+            height: 150px; /* Tüm fotoğrafların yüksekliğini sabitle */
+            object-fit: cover; /* Fotoğrafı kutuya sığdırırken oranlarını koru */
+            display: block;
+        }
 
-        /* Müzik Kontrol Butonu Stili */
-        #muzikKontrol {
-            background-color: #ff66b2; /* Pembe */
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-top: 30px; /* Şiir ve galeri ile arasında boşluk bırak */
-            box-shadow: 0 4px 15px rgba(255, 102, 178, 0.4);
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
+        /* Müzik Kontrol Butonu Stili */
+        #muzikKontrol {
+            background-color: #ff66b2; /* Pembe */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 30px; /* Şiir ve galeri ile arasında boşluk bırak */
+            box-shadow: 0 4px 15px rgba(255, 102, 178, 0.4);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
 
-        #muzikKontrol:hover {
-            background-color: #ff3399; /* Koyu pembe */
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 102, 178, 0.6);
-        }
+        #muzikKontrol:hover {
+            background-color: #ff3399; /* Koyu pembe */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 102, 178, 0.6);
+        }
 
-        #muzikKontrol.playing {
-            background-color: #66cc66; /* Yeşil (Oynatılıyor) */
-        }
+        #muzikKontrol.playing {
+            background-color: #66cc66; /* Yeşil (Oynatılıyor) */
+        }
 
-        #muzikKontrol.playing:hover {
-            background-color: #33bb33; /* Koyu Yeşil */
-        }
+        #muzikKontrol.playing:hover {
+            background-color: #33bb33; /* Koyu Yeşil */
+        }
 
-        /* Mobil Cihazlar İçin Ayarlamalar */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            h2 {
-                font-size: 1.8rem;
-            }
-            p {
-                font-size: 1rem;
-            }
-            .container {
-                padding: 25px;
-                margin: 20px;
-            }
-            .gallery {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Daha küçük kutular */
-                gap: 10px;
-            }
-            .gallery-item img {
-                height: 120px; /* Mobil için yüksekliği küçült */
-            }
-            #muzikKontrol {
-                padding: 10px 20px;
-                font-size: 1rem;
-            }
-        }
+        /* Mobil Cihazlar İçin Ayarlamalar */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .container {
+                padding: 25px;
+                margin: 20px;
+            }
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Daha küçük kutular */
+                gap: 10px;
+            }
+            .gallery-item img {
+                height: 120px; /* Mobil için yüksekliği küçült */
+            }
+            #muzikKontrol {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
 
-        @media (max-width: 480px) {
-            .gallery {
-                grid-template-columns: 1fr; /* Tek sütunlu görünüm */
-            }
-            .gallery-item img {
-                height: 200px; /* Tek sütunda daha büyük görünebilir */
-            }
-        }
-    </style>
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr; /* Tek sütunlu görünüm */
+            }
+            .gallery-item img {
+                height: 200px; /* Tek sütunda daha büyük görünebilir */
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Nisanur'uma Kalbimden</h1>
-        <p>
-            Her kelime, her mısra sana olan sevgimin bir yansıması. <br>
-            Seninle geçen her an, ruhumda bir sonsuzluk bestesi. <br>
-            Seninle tamamlanan bir ben var artık, <br>
-            Aşkınla parlayan, her dizeye sığmayan...
-        </p>
-        <p>
-            Gözlerinde bulduğum huzur, içimde yanan aşk ateşi,<br>
-            Sana duyduğum bu his, her geçen gün büyüyen bir neşe.<br>
-            Gönlümün en derin köşesinde saklısın, bir inci misali,<br>
-            Seninle her an, bir ömre bedel, paha biçilmez bir hazine.
-        </p>
-        <div class="poem-section">
-            <p>İçimde yanar kor ateşi, adı Nisanurum,<br>
-            Her sabah uyanınca düşer aklıma hüzün.<br>
-            Çok özledim seni gülüm gel artık yanıma,<br>
-            Kırdım seni, farkındayım, pişmanım da canımdan çok.</p>
-        </div>
-        ---
+    <div class="container">
+        <h1>Nisanur'uma Kalbimden</h1>
+        <p>
+            Her kelime, her mısra sana olan sevgimin bir yansıması. <br>
+            Seninle geçen her an, ruhumda bir sonsuzluk bestesi. <br>
+            Seninle tamamlanan bir ben var artık, <br>
+            Aşkınla parlayan, her dizeye sığmayan...
+        </p>
+        <p>
+            Gözlerinde bulduğum huzur, içimde yanan aşk ateşi,<br>
+            Sana duyduğum bu his, her geçen gün büyüyen bir neşe.<br>
+            Gönlümün en derin köşesinde saklısın, bir inci misali,<br>
+            Seninle her an, bir ömre bedel, paha biçilmez bir hazine.
+        </p>
+<div class="poem-section">
+    <p>İçimde yanar kor ateşi, adı Nisanurum,<br>
+    Her sabah uyanınca düşer aklıma hüzün.<br>
+    Çok özledim seni gülüm gel artık yanıma,<br>
+    Kırdım seni, farkındayım, pişmanım da canımdan çok.</p>
+</div>
+        ---
 
-        <h2>Aşkımız</h2> 
-        <div class="gallery">
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/ltVBaLp.jpeg"><img src="https://i.imgur.com/ltVBaLp.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/5jhhr1b.jpeg"><img src="https://i.imgur.com/5jhhr1b.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/UW1nxv3.jpeg"><img src="https://i.imgur.com/UW1nxv3.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/GcAkqg7.jpeg"><img src="https://i.imgur.com/GcAkqg7.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/pSMwZLj.jpeg"><img src="https://i.imgur.com/pSMwZLj.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/hwxTmnI.jpeg"><img src="https://i.imgur.com/hwxTmnI.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/GOd8Gxf.jpeg"><img src="https://i.imgur.com/GOd8Gxf.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/aSvpfB9.jpeg"><img src="https://i.imgur.com/aSvpfB9.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/v6yjdwJ.jpeg"><img src="https://i.imgur.com/v6yjdwJ.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/wOiKjht.jpeg"><img src="https://i.imgur.com/wOiKjht.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/54xD61O.jpeg"><img src="https://i.imgur.com/54xD61O.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/EaR7HoC.jpeg"><img src="https://i.imgur.com/EaR7HoC.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/2pldhZD.jpeg"><img src="https://i.imgur.com/2pldhZD.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/CalTz0r.jpeg"><img src="https://i.imgur.com/CalTz0r.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/VoMBcwO.jpeg"><img src="https://i.imgur.com/VoMBcwO.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/euuFbSr.jpeg"><img src="https://i.imgur.com/euuFbSr.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/weUNhvF.jpeg"><img src="https://i.imgur.com/weUNhvF.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/or4qilQ.jpeg"><img src="https://i.imgur.com/or4qilQ.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/mGEsFAL.jpeg"><img src="https://i.imgur.com/mGEsFAL.jpeg" alt="Aşk Anımız"></a>
-            </div>
-            <div class="gallery-item">
-                <a href="https://i.imgur.com/LJVfmcR.jpeg"><img src="https://i.imgur.com/LJVfmcR.jpeg" alt="Aşk Anımız"></a>
-            </div>
-        </div>
-        <button id="muzikKontrol">Müziği Başlat / Duraklat</button>
-    </div>
-    
-    <audio id="muzikOynatici" loop>
-        <source src="cem_adrian_ben_seni_cok_sevdim.mp3" type="audio/mpeg">
-        Tarayıcınız ses etiketini desteklemiyor.
-    </audio>
+        <h2>Aşkımız</h2> 
+        <div class="gallery">
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/ltVBaLp.jpeg"><img src="https://i.imgur.com/ltVBaLp.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/5jhhr1b.jpeg"><img src="https://i.imgur.com/5jhhr1b.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/UW1nxv3.jpeg"><img src="https://i.imgur.com/UW1nxv3.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/GcAkqg7.jpeg"><img src="https://i.imgur.com/GcAkqg7.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/pSMwZLj.jpeg"><img src="https://i.imgur.com/pSMwZLj.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/hwxTmnI.jpeg"><img src="https://i.imgur.com/hwxTmnI.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/GOd8Gxf.jpeg"><img src="https://i.imgur.com/GOd8Gxf.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/aSvpfB9.jpeg"><img src="https://i.imgur.com/aSvpfB9.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/v6yjdwJ.jpeg"><img src="https://i.imgur.com/v6yjdwJ.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/wOiKjht.jpeg"><img src="https://i.imgur.com/wOiKjht.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/54xD61O.jpeg"><img src="https://i.imgur.com/54xD61O.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/EaR7HoC.jpeg"><img src="https://i.imgur.com/EaR7HoC.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/2pldhZD.jpeg"><img src="https://i.imgur.com/2pldhZD.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/CalTz0r.jpeg"><img src="https://i.imgur.com/CalTz0r.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/VoMBcwO.jpeg"><img src="https://i.imgur.com/VoMBcwO.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/euuFbSr.jpeg"><img src="https://i.imgur.com/euuFbSr.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/weUNhvF.jpeg"><img src="https://i.imgur.com/weUNhvF.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/or4qilQ.jpeg"><img src="https://i.imgur.com/or4qilQ.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/mGEsFAL.jpeg"><img src="https://i.imgur.com/mGEsFAL.jpeg" alt="Aşk Anımız"></a>
+            </div>
+            <div class="gallery-item">
+                <a href="https://i.imgur.com/LJVfmcR.jpeg"><img src="https://i.imgur.com/LJVfmcR.jpeg" alt="Aşk Anımız"></a>
+            </div>
+        </div>
+        <button id="muzikKontrol">Müziği Başlat / Duraklat</button>
+    </div>
+    
+    <audio id="muzikOynatici" loop> <source src="Ta Uzak Yollardan.mp3" type="audio/mpeg">
+      Tarayıcınız ses etiketini desteklemiyor.
+    </audio>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.2/simple-lightbox.min.js"></script>
-    <script>
-        const muzik = document.getElementById('muzikOynatici');
-        const muzikKontrolButonu = document.getElementById('muzikKontrol');
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.2/simple-lightbox.min.js"></script>
+    <script>
+        const muzik = document.getElementById('muzikOynatici');
+        const muzikKontrolButonu = document.getElementById('muzikKontrol');
 
-        // Sayfa yüklendiğinde, varsa önceki müzik süresini ayarla ama otomatik başlatma
-        document.addEventListener('DOMContentLoaded', () => {
-            const storedTime = localStorage.getItem('muzikCurrentTime'); // Key adı 'muzikCurrentTime'
-            if (storedTime) {
-                muzik.currentTime = parseFloat(storedTime);
-            }
-            // Sayfa yüklendiğinde butonun durumunu güncelle (müzik çalmasa bile)
-            updateMuzikKontrolButonu();
+        // Sayfa yüklendiğinde, varsa önceki müzik süresini ayarla ama otomatik başlatma
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedTime = localStorage.getItem('muzikCurrentTime');
+            if (storedTime) {
+                muzik.currentTime = parseFloat(storedTime);
+            }
+            // Sayfa yüklendiğinde butonun durumunu güncelle
+            updateMuzikKontrolButonu();
+        });
 
-            // Müzik otomatik başlasın diye deneme (tarayıcılar engelleyebilir)
-            muzik.play().then(() => {
-                // Otomatik oynatma başarılı
-                updateMuzikKontrolButonu();
-            }).catch(e => {
-                console.warn("Müzik otomatik başlatılamadı:", e);
-                // Otomatik oynatma başarısız olursa butonu "Başlat" konumunda tut
-                updateMuzikKontrolButonu();
-                // Opsiyonel: Kullanıcıya müzik başlatma uyarısı verebilirsin.
-                // alert("Müzik otomatik başlatılamadı. Lütfen oynat düğmesine tıklayın.");
-            });
-        });
+        // Butona tıklandığında müziği oynat/durdur
+        muzikKontrolButonu.addEventListener('click', () => {
+            if (muzik.paused) {
+                muzik.play().then(() => {
+                    updateMuzikKontrolButonu();
+                }).catch(e => {
+                    console.error("Müzik oynatma hatası:", e);
+                    alert("Müzik başlatılamadı. Tarayıcınız otomatik oynatmayı engelliyor olabilir.");
+                });
+            } else {
+                muzik.pause();
+                updateMuzikKontrolButonu();
+            }
+        });
 
-        // Butona tıklandığında müziği oynat/durdur
-        muzikKontrolButonu.addEventListener('click', () => {
-            if (muzik.paused) {
-                muzik.play().then(() => {
-                    updateMuzikKontrolButonu();
-                }).catch(e => {
-                    console.error("Müzik oynatma hatası:", e);
-                    alert("Müzik başlatılamadı. Tarayıcınız otomatik oynatmayı engelliyor olabilir.");
-                });
-            } else {
-                muzik.pause();
-                updateMuzikKontrolButonu();
-            }
-        });
+        // Müziğin çalma süresini düzenli aralıklarla kaydet (Her 5 saniyede bir)
+        // Kullanıcı sayfadan ayrılırken kaydetmek yerine daha güvenli bir yöntem.
+        setInterval(() => {
+            if (!muzik.paused) { // Sadece müzik çalıyorsa kaydet
+                localStorage.setItem('muzikCurrentTime', muzik.currentTime);
+            }
+        }, 5000); // 5 saniyede bir kaydet
 
-        // Müziğin çalma süresini düzenli aralıklarla kaydet (Her 5 saniyede bir)
-        setInterval(() => {
-            if (!muzik.paused) { // Sadece müzik çalıyorsa kaydet
-                localStorage.setItem('muzikCurrentTime', muzik.currentTime); // Key adı 'muzikCurrentTime'
-            }
-        }, 5000); // 5 saniyede bir kaydet
+        // Müziğin çalma durumu değiştiğinde butonu güncelle
+        muzik.addEventListener('play', updateMuzikKontrolButonu);
+        muzik.addEventListener('pause', updateMuzikKontrolButonu);
+        muzik.addEventListener('ended', updateMuzikKontrolButonu); // Müzik bittiğinde de güncelleyelim
 
-        // Müzik durumu değiştikçe butonu güncelle
-        muzik.addEventListener('play', updateMuzikKontrolButonu);
-        muzik.addEventListener('pause', updateMuzikKontrolButonu);
-        muzik.addEventListener('ended', updateMuzikKontrolButonu); 
+        function updateMuzikKontrolButonu() {
+            if (muzik.paused) {
+                muzikKontrolButonu.textContent = 'Müziği Başlat';
+                muzikKontrolButonu.classList.remove('playing');
+            } else {
+                muzikKontrolButonu.textContent = 'Müziği Duraklat';
+                muzikKontrolButonu.classList.add('playing');
+            }
+        }
 
-        function updateMuzikKontrolButonu() {
-            if (muzik.paused) {
-                muzikKontrolButonu.textContent = 'Müziği Başlat';
-                muzikKontrolButonu.classList.remove('playing');
-            } else {
-                muzikKontrolButonu.textContent = 'Müziği Duraklat';
-                muzikKontrolButonu.classList.add('playing');
-            }
-        }
 
-        // SimpleLightbox'ı başlat
-        document.addEventListener('DOMContentLoaded', function() {
-            var gallery = new SimpleLightbox('.gallery a', {
-                /* options */
-                navText: ['&#x2190;', '&#x2192;'], // Ok işaretleri
-                animationSpeed: 150,
-                captions: false // Fotoğraf altı yazıları kaldırıldı
-            });
-        });
-    </script>
+        // SimpleLightbox'ı başlat
+        document.addEventListener('DOMContentLoaded', function() {
+            var gallery = new SimpleLightbox('.gallery a', {
+                /* options */
+                navText: ['&#x2190;', '&#x2192;'], // Ok işaretleri
+                animationSpeed: 150,
+                captions: false // Fotoğraf altı yazıları kaldırıldı
+            });
+        });
+    </script>
 </body>
 </html>
